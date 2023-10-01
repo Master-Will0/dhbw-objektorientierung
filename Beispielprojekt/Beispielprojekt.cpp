@@ -1,4 +1,4 @@
-#include <Gosu/Gosu.hpp> //comment sth
+#include <Gosu/Gosu.hpp> //comment st
 #include <Gosu/AutoLink.hpp>
 
 class GameWindow : public Gosu::Window
