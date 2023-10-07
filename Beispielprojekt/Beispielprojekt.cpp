@@ -1,5 +1,7 @@
-#include <Gosu/Gosu.hpp> //comment st
+#include <Gosu/Gosu.hpp>
 #include <Gosu/AutoLink.hpp>
+#include <iostream>
+using namespace std;
 
 class GameWindow : public Gosu::Window
 {
@@ -32,6 +34,8 @@ public:
 // C++ Hauptprogramm
 int main()
 {
+	cout<< "hello";
 	GameWindow window;
 	window.show();
+	return 1;
 }

@@ -3,7 +3,8 @@
     {
       "name": "windows-cygwin-gcc-x64",
       "includePath": [
-        "${workspaceFolder}/**"
+        "${workspaceFolder}/**",
+        "${workspaceFolder}/gosu/"
       ],
       "compilerPath": "F:/Programme/cygwin/bin/gcc.exe",
       "cStandard": "${default}",
