@@ -1,0 +1,23 @@
+
+Todo's
+
+1: create Background with Arena
+  Arena: left part of a parabola, horizontal line, right part of a parabola  ==> fill area under the curve
+2: create Car Object:
+  private int   velocityX Y + positionX Y, 
+  public function   set, get, accelerate(changes velocity), move(changes position) 
+3: implement car motion
+  move function in draw()
+  accelerate function in update() and call if left/right is pressed
+  freefall motion
+4: implement object interaction:                  
+  cars hit eachother, driving up the ramps
+5: hitpoints and maybe powerups or flying
+
+
+Comments:
+  4. is most difficult. rest is easy
+
+
+Issues:
+  
