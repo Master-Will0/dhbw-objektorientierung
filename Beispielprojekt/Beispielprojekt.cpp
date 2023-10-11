@@ -7,8 +7,11 @@ class GameWindow : public Gosu::Window
 {
 public:
 
+	Gosu::Image Hintergrund;
+
 	GameWindow()
-		: Window(800, 600)
+		: Window (Gosu :: available_width(),Gosu :: available_height(), true)
+		, Hintergrund ("Hintergrund.png")
 	{
 		set_caption("Gosu Tutorial mit Git");
 	}
@@ -18,8 +21,10 @@ public:
 	// dann werden `draw` Aufrufe ausgelassen und die Framerate sinkt
 	void draw() override
 	{
+		Hintergrund.draw(Gosu :: available_height()-(3556* double(Gosu::available_height()) / double(3556)), 0, -100, double(Gosu::available_width()) / double(7111), double(Gosu::available_height()) / double(3556));
+
 		graphics().draw_line(
-			10, 20, Gosu::Color::RED,
+			0, Gosu::available_height(), Gosu::Color::RED,
 			200, 100, Gosu::Color::GREEN,
 			0.0
 		);
@@ -34,7 +39,7 @@ public:
 // C++ Hauptprogramm
 int main()
 {
-	cout<< "hello";
+	cout<< Gosu::available_height() - (3550 * double(Gosu::available_height()) / double(3550));
 	GameWindow window;
 	window.show();
 	return 1;
