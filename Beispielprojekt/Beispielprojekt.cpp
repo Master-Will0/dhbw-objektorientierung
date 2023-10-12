@@ -99,12 +99,19 @@ public:
 	void update() override
 	{
 		Redcar.move();
-		Bluecar.move();
 		if (Gosu::Input::down(Gosu::Button::KB_LEFT)) {
 			Redcar.accelerate(-50, 0);
 		}
 		if (Gosu::Input::down(Gosu::Button::KB_RIGHT)) {
 			Redcar.accelerate(50, 0);
+		}
+
+		Bluecar.move();
+		if (Gosu::Input::down(Gosu::Button::KB_A)) {
+			Bluecar.accelerate(-50, 0);
+		}
+		if (Gosu::Input::down(Gosu::Button::KB_D)) {
+			Bluecar.accelerate(50, 0);
 		}
 	}
 };
