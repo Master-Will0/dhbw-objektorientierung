@@ -29,21 +29,30 @@ public:
 	void draw() {
 		image.draw(this->positionX, this->positionY);
 	}
+	double counterX = 0; ///////
+	double counterY = 0; ///////
 	void move() {
-		static double counterX;
-		static double counterY;
-		counterX += this->velocityX / 60;
-		counterY += this->velocityY / 60;
-		for (int i = 0; i <= counterX; i++) {
-			this->positionX++;
-			counterX--;
+
+		counterX += this->velocityX / 60;/////// 
+		counterY += this->velocityY / 60; ///////
+		for (int i = 0; i <= counterX; i++) {  ///////
+			this->positionX++; ///////
+			counterX--; ///////
 		}
-		for (int i = 0; i <= counterY; i++) {
-			this->positionY++;
-			counterY--;
+		for (int i = 0; i <= -1 * counterX; i++) {  ///////
+			this->positionX--; ///////
+			counterX--; ///////
 		}
-		this->positionX += this->velocityX/60;
-		this->positionY += this->velocityY/60;
+		for (int i = 0; i <= counterY; i++) {///////
+			this->positionY++;///////
+			counterY--;///////
+		}
+		for (int i = 0; i <= -1 * counterY; i++) {///////
+			this->positionY--;///////
+			counterY--;///////
+		}
+		/*this->positionX += this->velocityX / 60;
+		this->positionY += this->velocityY/60;*/
 		if (this->mirrored && this->velocityX < 0 ) { //wenn Auto nach rechts zeigt, aber v nach links geht, also negativ ist
 			this->mirrored = true;
 		}
