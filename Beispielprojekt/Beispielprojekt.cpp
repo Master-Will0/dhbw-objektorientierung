@@ -3,43 +3,116 @@
 #include <iostream>
 using namespace std;
 
+const int WIDTH = Gosu::screen_width();
+const int HEIGHT = Gosu::screen_height();
+
+//infos: unter Rahmen: 105px;
+
+class Car {
+	double velocityX = 0;
+	double velocityY = 0;
+	int positionX = 0;
+	int positionY = 0;
+	int rotation = 0; //in degree
+	bool mirrored = false;
+	Gosu::Image image;
+
+public:
+	Car(string filename, int positionX, int positionY) :
+		image(filename)
+	{ 
+
+		this->positionX = positionX;
+		this->positionY = positionY - image.height() - 105;
+	};
+
+	void draw() {
+		image.draw(this->positionX, this->positionY);
+	}
+	void move() {
+		static double counterX;
+		static double counterY;
+		counterX += this->velocityX / 60;
+		counterY += this->velocityY / 60;
+		for (int i = 0; i <= counterX; i++) {
+			this->positionX++;
+			counterX--;
+		}
+		for (int i = 0; i <= counterY; i++) {
+			this->positionY++;
+			counterY--;
+		}
+		this->positionX += this->velocityX/60;
+		this->positionY += this->velocityY/60;
+		if (this->mirrored && this->velocityX < 0 ) { //wenn Auto nach rechts zeigt, aber v nach links geht, also negativ ist
+			this->mirrored = true;
+		}
+	}
+	void accelerate(double accelerationX = 0, double accelerationY = 0) {
+		this->velocityX += accelerationX / 60;
+		this->velocityY += accelerationY/60;
+		cout << "acc call" << this->velocityX << endl;
+	}
+	bool getMirrored() {
+		return this->mirrored;
+	}
+	void setRotation(int rotation) {
+		this->rotation = rotation;
+	}
+	int getRotation() {
+		return this->rotation;
+	}
+};
 class GameWindow : public Gosu::Window
 {
 public:
 
 	Gosu::Image Hintergrund;
+	Car Redcar;
+	Car Bluecar;
 
-	GameWindow()
-		: Window (Gosu :: available_width(),Gosu :: available_height(), true)
-		, Hintergrund ("Hintergrund.png")
+	GameWindow(): 
+		Window (WIDTH, HEIGHT),
+		Hintergrund ("Hintergrund.png"),
+		Redcar("Car_red.png", WIDTH/1.75, HEIGHT),
+		Bluecar("Car_blue.png", WIDTH/2.25, HEIGHT)
 	{
 		set_caption("Gosu Tutorial mit Git");
 	}
 
-	// Wird bis zu 60x pro Sekunde aufgerufen.
-	// Wenn die Grafikkarte oder der Prozessor nicht mehr hinterherkommen,
-	// dann werden `draw` Aufrufe ausgelassen und die Framerate sinkt
+	
 	void draw() override
 	{
-		Hintergrund.draw(Gosu :: available_height()-(3556* double(Gosu::available_height()) / double(3556)), 0, -100, double(Gosu::available_width()) / double(7111), double(Gosu::available_height()) / double(3556));
-
+		Hintergrund.draw(0, 0, -100, double(WIDTH) / double(Hintergrund.width()), double(HEIGHT) / double(Hintergrund.height()));
+		Redcar.draw();
+		Bluecar.draw();
+		
+		/*
 		graphics().draw_line(
 			0, Gosu::available_height(), Gosu::Color::RED,
 			200, 100, Gosu::Color::GREEN,
 			0.0
-		);
+		);*/
 	}
 
-	// Wird 60x pro Sekunde aufgerufen
+	
 	void update() override
 	{
+		Redcar.move();
+		Bluecar.move();
+		if (Gosu::Input::down(Gosu::Button::KB_LEFT)) {
+			Redcar.accelerate(-50, 0);
+		}
+		if (Gosu::Input::down(Gosu::Button::KB_RIGHT)) {
+			Redcar.accelerate(50, 0);
+		}
 	}
 };
 
 // C++ Hauptprogramm
 int main()
 {
-	cout<< Gosu::available_height() - (3550 * double(Gosu::available_height()) / double(3550));
+	cout << "Window-sizing: " << WIDTH << " x " << HEIGHT << endl;
 	GameWindow window;
 	window.show();
 	return 1;
