@@ -9,6 +9,23 @@ const int HEIGHT = Gosu::screen_height();
 
 //infos: unter Rahmen: 105px;
 
+
+int YofCurve(double X) {
+	switch (carInSegment(X)) {
+	case 0:// 105 nach oben       skalierung Parabel							verschiebung Parabel
+		return 105 +	((double)HEIGHT / 2 * pow((double)WIDTH / 4, 2))	* pow(X - (double)WIDTH / 4, 2);
+	case 1:
+		return 105;
+	case 2:
+		return 105 +	((double)HEIGHT / 2 * pow((double)WIDTH / 4, 2))	* pow(X - (double)WIDTH * 3 / 4, 2);
+	}
+}
+int carInSegment(int X) {//0 for left, 1 for middle, 2 for right
+	if (X < WIDTH / 4) { return 0; }
+	else if (X > WIDTH * 3 / 4) { return 2; }
+	else { return 1; }
+}
+
 class Car {
 	double velocityX = 0;
 	double velocityY = 0;
@@ -16,9 +33,30 @@ class Car {
 	int positionY = 0;
 	int rotation = 0; //in degree
 	bool mirrored = false;
-	Gosu::Image image;
-	Gosu::Image image_mirrored;
+	const Gosu::Image image;
+	const Gosu::Image image_mirrored;
+	const int ACCELERATION = 100;
+	const int GRAVITY = 100;
 
+	bool carOverCurve() {
+		if (this->getEndX() > YofCurve(this->getEndX())) {
+			return 1;
+		}
+		else return 0;
+	}
+
+	int getCenterX() {
+		return this->positionX + this->image.width() / 2;
+	}
+	int getCenterY() {
+		return this->positionY + this->image.height() / 2;
+	}
+	int getEndX() {
+		return this->positionX + this->image.width();
+	}
+	int getEndY() {
+		return this->positionY + this->image.height();
+	}
 public:
 	Car(string fileprename, int positionX, int positionY) :
 		image(fileprename + ".png"), image_mirrored(fileprename + "_mirrored.png")
@@ -60,9 +98,10 @@ public:
 			this->mirrored = false;
 		}
 	}
-	void accelerate(double accelerationX = 0, double accelerationY = 0) {
-		this->velocityX += accelerationX / 60;
-		this->velocityY += accelerationY/60;
+	void accelerate() {
+		this->velocityX += ACCELERATION * cos(this->rotation) / 60;
+		this->velocityY -= ACCELERATION * sin(this->rotation) /60;
+		// if(Z over curve){this->velocityY += GRAVITY/60;}
 		cout << "acc call" << this->velocityX << endl;
 	}
 	bool getMirrored() {
@@ -112,18 +151,18 @@ public:
 	{
 		Redcar.move();
 		if (Gosu::Input::down(Gosu::Button::KB_LEFT)) {
-			Redcar.accelerate(-100, 0);
+			Redcar.accelerate(-100);
 		}
 		if (Gosu::Input::down(Gosu::Button::KB_RIGHT)) {
-			Redcar.accelerate(100, 0);
+			Redcar.accelerate(100);
 		}
 
 		Bluecar.move();
 		if (Gosu::Input::down(Gosu::Button::KB_A)) {
-			Bluecar.accelerate(-100, 0);
+			Bluecar.accelerate(-100);
 		}
 		if (Gosu::Input::down(Gosu::Button::KB_D)) {
-			Bluecar.accelerate(100, 0);
+			Bluecar.accelerate(100);
 		}
 	}
 };
