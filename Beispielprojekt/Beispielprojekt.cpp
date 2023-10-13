@@ -1,6 +1,7 @@
 #include <Gosu/Gosu.hpp>
 #include <Gosu/AutoLink.hpp>
 #include <iostream>
+#include <cmath>
 using namespace std;
 
 const int WIDTH = Gosu::screen_width();
@@ -16,45 +17,47 @@ class Car {
 	int rotation = 0; //in degree
 	bool mirrored = false;
 	Gosu::Image image;
+	Gosu::Image image_mirrored;
 
 public:
-	Car(string filename, int positionX, int positionY) :
-		image(filename)
+	Car(string fileprename, int positionX, int positionY) :
+		image(fileprename + ".png"), image_mirrored(fileprename + "_mirrored.png")
 	{ 
-
 		this->positionX = positionX;
 		this->positionY = positionY - image.height() - 105;
 	};
 
-	void draw() {
-		image.draw(this->positionX, this->positionY);
-	}
-	double counterX = 0; ///////
-	double counterY = 0; ///////
-	void move() {
 
-		counterX += this->velocityX / 60;/////// 
-		counterY += this->velocityY / 60; ///////
-		for (int i = 0; i <= counterX; i++) {  ///////
-			this->positionX++; ///////
-			counterX--; ///////
+	void draw() {
+		if (mirrored) {
+			cout << "mirrored!!!" << endl;
+			image_mirrored.draw(this->positionX, this->positionY);
+			image.draw(0,0,0,0,0);
+		} else{
+			cout << "not" << endl;
+			image.draw(this->positionX, this->positionY);
+			image_mirrored.draw(0, 0, 0, 0, 0);
 		}
-		for (int i = 0; i <= -1 * counterX; i++) {  ///////
-			this->positionX--; ///////
-			counterX--; ///////
+	}
+
+	double counterX = 0;
+	double counterY = 0;
+	void move() {
+		counterX += this->velocityX / 60;
+		counterY += this->velocityY / 60;
+		if ((int)counterX) {
+			this->positionX += (int)counterX;
+			counterX -= (int)counterX;
 		}
-		for (int i = 0; i <= counterY; i++) {///////
-			this->positionY++;///////
-			counterY--;///////
+		if ((int)counterY) {
+			this->positionY += (int)counterY;
+			counterY += (int)counterY;
 		}
-		for (int i = 0; i <= -1 * counterY; i++) {///////
-			this->positionY--;///////
-			counterY--;///////
-		}
-		/*this->positionX += this->velocityX / 60;
-		this->positionY += this->velocityY/60;*/
-		if (this->mirrored && this->velocityX < 0 ) { //wenn Auto nach rechts zeigt, aber v nach links geht, also negativ ist
+		if (this->velocityX < 0 ) { //wenn Auto nach rechts zeigt, aber v nach links geht, also negativ ist
 			this->mirrored = true;
+		}
+		else {
+			this->mirrored = false;
 		}
 	}
 	void accelerate(double accelerationX = 0, double accelerationY = 0) {
@@ -83,8 +86,8 @@ public:
 	GameWindow(): 
 		Window (WIDTH, HEIGHT),
 		Hintergrund ("Hintergrund.png"),
-		Redcar("Car_red.png", WIDTH/1.75, HEIGHT),
-		Bluecar("Car_blue.png", WIDTH/2.25, HEIGHT)
+		Redcar("Car_red", WIDTH/1.75, HEIGHT),
+		Bluecar("Car_blue", WIDTH/2.25, HEIGHT)
 	{
 		set_caption("Gosu Tutorial mit Git");
 	}
@@ -109,18 +112,18 @@ public:
 	{
 		Redcar.move();
 		if (Gosu::Input::down(Gosu::Button::KB_LEFT)) {
-			Redcar.accelerate(-50, 0);
+			Redcar.accelerate(-100, 0);
 		}
 		if (Gosu::Input::down(Gosu::Button::KB_RIGHT)) {
-			Redcar.accelerate(50, 0);
+			Redcar.accelerate(100, 0);
 		}
 
 		Bluecar.move();
 		if (Gosu::Input::down(Gosu::Button::KB_A)) {
-			Bluecar.accelerate(-50, 0);
+			Bluecar.accelerate(-100, 0);
 		}
 		if (Gosu::Input::down(Gosu::Button::KB_D)) {
-			Bluecar.accelerate(50, 0);
+			Bluecar.accelerate(100, 0);
 		}
 	}
 };
