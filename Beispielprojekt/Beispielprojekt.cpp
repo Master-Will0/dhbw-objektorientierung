@@ -8,22 +8,42 @@ const int WIDTH = Gosu::screen_width();
 const int HEIGHT = Gosu::screen_height();
 
 //infos: unter Rahmen: 105px;
-
-int XInSegment(int X) {//0 for left, 1 for middle, 2 for right
-	if (X < WIDTH / 4) { return 0; }
-	else if (X > WIDTH * 3 / 4) { return 2; }
-	else { return 1; }
-}
-int YOfCurve(double X) {
-	switch (XInSegment(X)) {
-	case 0://			105 nach oben       skalierung Parabel							verschiebung Parabel
-		return HEIGHT - (105 +	((double)HEIGHT / 2 / pow((double)WIDTH / 4, 2))	* pow(X - (double)WIDTH / 4, 2));
-	case 1:
-		return HEIGHT - 105;
-	case 2:
-		return HEIGHT - (105 +	((double)HEIGHT / 2 / pow((double)WIDTH / 4, 2))	* pow(X - (double)WIDTH * 3 / 4, 2));
+struct Arena {
+	double stretchFactor = (double)HEIGHT / 2 / pow((double)WIDTH);
+	int XInSegment(int X) {//0 for left, 1 for middle, 2 for right
+		if (X < WIDTH / 4) { return 0; }
+		else if (X > WIDTH * 3 / 4) { return 2; }
+		else { return 1; }
 	}
-}
+	int YOfArenaCurve(double X) {
+		switch (XInSegment(X)) {
+		case 0://			105 nach oben       skalierung Parabel							verschiebung Parabel
+			return HEIGHT - (105 + (stretchFactor / 4, 2)) * pow(X - (double)WIDTH / 4, 2));
+		case 1:
+			return HEIGHT - 105;
+		case 2:
+			return HEIGHT - (105 + (stretchFactor / 4, 2)) * pow(X - (double)WIDTH * 3 / 4, 2));
+		}
+	}
+	int SlopeOfArenaCurve(double X) {
+		switch (XInSegment(X)) {
+		case 0:
+			return stretchFactor * 2 * (X - (double)WIDTH / 4);
+		case 1:
+			return 0;
+		case 2:
+			return stretchFactor * 2 * (X - (double)WIDTH * 3 / 4);
+		}
+	}
+	void draw() {
+		for (int x = 0; x < WIDTH; x++) {
+			for (int y = YOfArenaCurve(x); y < HEIGHT; y++) {
+				Gosu::Graphics::draw_rect(x, y, 1, 1, Gosu::Color::BLACK, 0);
+			}
+		}
+	}
+};
+
 
 class Car {
 	double velocityX = 0;
@@ -38,7 +58,7 @@ class Car {
 	const int GRAVITY = 150;
 
 	bool carOverCurve() {
-		if (this->getEndY() < YOfCurve(this->getEndY())) {
+		if (this->getEndY() < YOfArenaCurve(this->getEndY())) {
 			return 1;
 		}
 		else { return 0; }
@@ -126,6 +146,7 @@ public:
 	Gosu::Image Hintergrund;
 	Car Redcar;
 	Car Bluecar;
+	Arena arena;
 
 	GameWindow(): 
 		Window (WIDTH, HEIGHT),
@@ -142,9 +163,7 @@ public:
 		Hintergrund.draw(0, 0, -100, double(WIDTH) / double(Hintergrund.width()), double(HEIGHT) / double(Hintergrund.height()));
 		Redcar.draw();
 		Bluecar.draw();
-		for (int x = 0; x < WIDTH; x++) {
-			Gosu::Graphics::draw_rect(x, YOfCurve(x), 5, 5, Gosu::Color::BLACK, 0);
-		}
+		arena.draw();
 	}
 
 	
