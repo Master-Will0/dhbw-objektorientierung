@@ -223,3 +223,8 @@ int main()
 	window.show();
 	return 1;
 }
+
+
+
+
+// Rotation is not perfect and gravity when on the parabola needs to be added
