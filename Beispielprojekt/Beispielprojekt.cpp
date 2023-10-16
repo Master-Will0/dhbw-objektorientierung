@@ -10,7 +10,8 @@ const int HEIGHT = Gosu::screen_height();
 
 //infos: unter Rahmen: 105px;
 struct Arena {
-	double stretchFactor = (double)HEIGHT / 2 / pow((double)WIDTH / 4,2);
+	double stretchFactor = (double)HEIGHT / 2 / pow((double)WIDTH / 4, 2);
+
 	int XInSegment(int X) {//0 for left, 1 for middle, 2 for right
 		if (X < WIDTH / 4) { return 0; }
 		else if (X > WIDTH * 3 / 4) { return 2; }
@@ -26,7 +27,8 @@ struct Arena {
 			return HEIGHT - (105 + stretchFactor * pow(X - (double)WIDTH * 3 / 4, 2));
 		}
 	}
-	int SlopeOfArenaCurve(double X) {
+	double SlopeOfArenaCurve(double X) {
+		stretchFactor = (double)HEIGHT / 2 / pow((double)WIDTH / 4, 2); // idk why, same definition again
 		switch (XInSegment(X)) {
 		case 0:
 			return stretchFactor * 2 * (X - (double)WIDTH / 4);
@@ -79,6 +81,7 @@ class Car {
 	int getEndY() {
 		return this->positionY + this->image.height();
 	}
+
 	bool carOverCurve() {
 		if (this->getEndY() < arena.YOfArenaCurve(this->getCenterX())) {
 			return 1;
@@ -87,6 +90,7 @@ class Car {
 			return 0; 
 		}
 	}
+
 	void gravity(){
 		if (this->carOverCurve()) {
 			this->gravityY += GRAVITY / 60;
@@ -96,9 +100,11 @@ class Car {
 		}
 	}
 	void rotatedVelocity() {
-		this->rotation = arena.RotationOfArenaCurve(this->getCenterX());
-		this->velocityX = this->velocity * cos(this->rotation);
-		this->velocityY = this->velocity * sin(this->rotation);
+		this->rotation = arena.RotationOfArenaCurve(this->getCenterX());// !!!!!
+		cout << rotation << endl;
+		this->velocityX = this->velocity * cos(this->rotation * PI / 180);
+		this->velocityY = -1 * this->velocity * sin(this->rotation * PI / 180);
+		
 	}
 	void movement() {
 		static double counterX = 0;
@@ -139,10 +145,10 @@ public:
 
 	void draw() {
 		if (mirrored) {
-			image_mirrored.draw(this->positionX, this->positionY);
+			image_mirrored.draw_rot(this->positionX, this->positionY, 0, -1 * rotation, 0.5, 0); // !!!!!
 			image.draw(0,0,0,0,0);
 		} else{
-			image.draw(this->positionX, this->positionY);
+			image.draw_rot(this->positionX, this->positionY, 0, -1 * rotation, 0.5, 0);  // !!!!!
 			image_mirrored.draw(0, 0, 0, 0, 0);
 		}
 	}
