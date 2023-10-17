@@ -7,6 +7,7 @@ using namespace std;
 
 const int WIDTH = Gosu::screen_width();
 const int HEIGHT = Gosu::screen_height();
+const int FRAMERATE = 60;
 
 //infos: unter Rahmen: 105px;
 struct Arena {
@@ -63,10 +64,12 @@ class Car {
 	int positionY = 0;
 	int rotation = 0; //in degree
 	bool mirrored = false;
+	bool IsCarOverCurve = true;
 	const Gosu::Image image;
 	const Gosu::Image image_mirrored;
-	const int ACCELERATION = 100;
-	const int GRAVITY = 150;
+	const int ACCELERATION = 200;
+	const int GRAVITY = 1;
+	const double FRICTION = 0.995;
 	Arena arena;
 
 	int getCenterX() {
@@ -82,35 +85,40 @@ class Car {
 		return this->positionY + this->image.height();
 	}
 
-	bool carOverCurve() {
-		if (this->getEndY() < arena.YOfArenaCurve(this->getCenterX())) {
+	bool carOverCurve() { // caic for top middle of car
+		if (this->positionY < arena.YOfArenaCurve(this->getCenterX())) {
 			return 1;
 		}
-		else { 
-			return 0; 
+		else {
+			return 0;
 		}
 	}
 
-	void gravity(){
-		if (this->carOverCurve()) {
-			this->gravityY += GRAVITY / 60;
-		}
-		else{
-			this->gravityY = 0;
-		}
+	void gravity() {
+		this->gravityY += (double)GRAVITY / FRAMERATE;
 	}
-	void rotatedVelocity() {
+	void directedVelocity() {
 		this->rotation = arena.RotationOfArenaCurve(this->getCenterX());// !!!!!
+		positionY = arena.YOfArenaCurve(getCenterX());
+
 		cout << rotation << endl;
-		this->velocityX = this->velocity * cos(this->rotation * PI / 180);
-		this->velocityY = -1 * this->velocity * sin(this->rotation * PI / 180);
-		
+
+		velocity -= gravityY * sin(rotation * PI / 180);
+
+		velocity *= FRICTION;
+
+		velocityX = velocity * cos(rotation * PI / 180);
+		velocityY = -1 * velocity * sin(rotation * PI / 180);
+	}
+	void freeVelocity() {
+
+		velocityY += gravityY;
 	}
 	void movement() {
 		static double counterX = 0;
 		static double counterY = 0;
-		counterX += this->velocityX / 60;
-		counterY += (gravityY + velocityY) / 60;
+		counterX += velocityX / FRAMERATE;
+		counterY += velocityY / FRAMERATE;
 		if ((int)counterX) {
 			this->positionX += (int)counterX;
 			counterX -= (int)counterX;
@@ -128,14 +136,14 @@ class Car {
 			this->mirrored = false;
 		}
 	}
-	
+
 
 public:
 	Car(string fileprename, Arena arena, int positionX, int positionY) :
 		image(fileprename + ".png"), image_mirrored(fileprename + "_mirrored.png"),
 		arena(arena)
-	{ 
-		this->positionX = positionX - image.width() / 2;
+	{
+		this->positionX = positionX;// -image.width() / 2;
 		this->positionY = positionY - image.height();
 		if (this->positionX > WIDTH / 2) {
 			this->mirrored = true;
@@ -145,26 +153,41 @@ public:
 
 	void draw() {
 		if (mirrored) {
-			image_mirrored.draw_rot(this->positionX, this->positionY, 0, -1 * rotation, 0.5, 0); // !!!!!
-			image.draw(0,0,0,0,0);
-		} else{
-			image.draw_rot(this->positionX, this->positionY, 0, -1 * rotation, 0.5, 0);  // !!!!!
+			image_mirrored.draw_rot(this->positionX, this->positionY - image.height() * (1 + sin(rotation * PI / 180)), 0, -1 * rotation, 0.5, 0); // !!!!!this->positionY - image.height() / cos(rotation * PI / 180
+			Gosu::Graphics::draw_rect(this->positionX, this->positionY - image.height() * (1 + sin(rotation * PI / 180)), image.width(), image.height(), Gosu::Color::BLACK, 0);
+			Gosu::Graphics::draw_rect(this->positionX, this->positionY - image.height(), image.width(), 5, Gosu::Color::GREEN, 0);
+			image.draw(0, 0, 0, 0, 0);
+		}
+		else {
+			image.draw_rot(this->positionX, this->positionY - image.height() * (1 + sin(rotation * PI / 180)), 0, -1 * rotation, 0.5, 0);  // !!!!!
+			Gosu::Graphics::draw_rect(this->positionX, this->positionY - image.height() * (1 + sin(rotation * PI / 180)), image.width(), image.height(), Gosu::Color::BLACK, 0);
+			Gosu::Graphics::draw_rect(this->positionX, this->positionY - image.height(), image.width(), 5, Gosu::Color::GREEN, 0);
 			image_mirrored.draw(0, 0, 0, 0, 0);
 		}
 	}
 
 	void move() {
-		this->rotatedVelocity();
+		IsCarOverCurve = carOverCurve();
 		this->gravity();
+		if (!IsCarOverCurve) {
+			this->directedVelocity();
+		}
+		else {
+			this->freeVelocity();
+		}
 		this->isMirrored();
 		this->movement();
 	}
 	void accelerate(Gosu::Button btnLeft, Gosu::Button btnRight) {
 		if (Gosu::Input::down(btnLeft)) {
-			this->velocity += ACCELERATION / 60 * -1;
+			if (!carOverCurve()) {
+				this->velocity -= (double)ACCELERATION / FRAMERATE;
+			}
 		}
 		if (Gosu::Input::down(btnRight)) {
-			this->velocity += ACCELERATION / 60;
+			if (!carOverCurve()) {
+				this->velocity += (double)ACCELERATION / FRAMERATE;
+			}
 		}
 	}
 	bool getMirrored() {
