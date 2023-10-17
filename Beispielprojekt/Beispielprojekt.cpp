@@ -101,8 +101,6 @@ class Car {
 		this->rotation = arena.RotationOfArenaCurve(this->getCenterX());// !!!!!
 		positionY = arena.YOfArenaCurve(getCenterX());
 
-		cout << rotation << endl;
-
 		velocity -= gravityY * sin(rotation * PI / 180);
 
 		velocity *= FRICTION;
@@ -138,6 +136,8 @@ class Car {
 	}
 
 
+
+
 public:
 	Car(string fileprename, Arena arena, int positionX, int positionY) :
 		image(fileprename + ".png"), image_mirrored(fileprename + "_mirrored.png"),
@@ -153,14 +153,15 @@ public:
 
 	void draw() {
 		if (mirrored) {
-			image_mirrored.draw_rot(this->positionX, this->positionY - image.height() * (1 + sin(rotation * PI / 180)), 0, -1 * rotation, 0.5, 0); // !!!!!this->positionY - image.height() / cos(rotation * PI / 180
-			Gosu::Graphics::draw_rect(this->positionX, this->positionY - image.height() * (1 + sin(rotation * PI / 180)), image.width(), image.height(), Gosu::Color::BLACK, 0);
+			image_mirrored.draw_rot(this->positionX, this->positionY - image.height() * (1 + sin(-1 * rotation * PI / 180)), 0, -1 * rotation, 0, 0); // !!!!!this->positionY - image.height() / cos(rotation * PI / 180
+																						////////////////////////////////
+			Gosu::Graphics::draw_rect(this->positionX, this->positionY - image.height() * (1 + sin(-1 * rotation * PI / 180)), image.width(), image.height(), Gosu::Color::BLACK, 0);
 			Gosu::Graphics::draw_rect(this->positionX, this->positionY - image.height(), image.width(), 5, Gosu::Color::GREEN, 0);
 			image.draw(0, 0, 0, 0, 0);
 		}
 		else {
-			image.draw_rot(this->positionX, this->positionY - image.height() * (1 + sin(rotation * PI / 180)), 0, -1 * rotation, 0.5, 0);  // !!!!!
-			Gosu::Graphics::draw_rect(this->positionX, this->positionY - image.height() * (1 + sin(rotation * PI / 180)), image.width(), image.height(), Gosu::Color::BLACK, 0);
+			image.draw_rot(this->positionX, this->positionY - image.height() * (1 + sin(-1 * rotation * PI / 180)), 0, -1 * rotation, 0, 0);  // !!!!!
+			Gosu::Graphics::draw_rect(this->positionX, this->positionY - image.height() * (1 + sin(-1 * rotation * PI / 180)), image.width(), image.height(), Gosu::Color::BLACK, 0);
 			Gosu::Graphics::draw_rect(this->positionX, this->positionY - image.height(), image.width(), 5, Gosu::Color::GREEN, 0);
 			image_mirrored.draw(0, 0, 0, 0, 0);
 		}
