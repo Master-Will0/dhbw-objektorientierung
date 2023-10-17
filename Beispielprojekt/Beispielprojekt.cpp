@@ -9,7 +9,7 @@ const int WIDTH = Gosu::screen_width();
 const int HEIGHT = Gosu::screen_height();
 const int FRAMERATE = 60;
 
-//infos: unter Rahmen: 105px;
+//infos: unter Rahmen: 105px; sometimes you need to add a couple of spaces at the accelerate function to work properly. idc why
 struct Arena {
 	double stretchFactor = (double)HEIGHT / 2 / pow((double)WIDTH / 4, 2);
 
@@ -153,7 +153,7 @@ public:
 
 	void draw() {
 		if (mirrored) {
-			image_mirrored.draw_rot(this->positionX, this->positionY - image.height() * (1 + sin(-1 * rotation * PI / 180)), 0, -1 * rotation, 0, 0); // !!!!!this->positionY - image.height() / cos(rotation * PI / 180
+			image_mirrored.draw_rot(this->positionX, this->positionY - image.height() * (1 + sin(-1 * rotation * PI / 180)), 0, -1 * rotation, 0, 0);
 																						////////////////////////////////
 			Gosu::Graphics::draw_rect(this->positionX, this->positionY - image.height() * (1 + sin(-1 * rotation * PI / 180)), image.width(), image.height(), Gosu::Color::BLACK, 0);
 			Gosu::Graphics::draw_rect(this->positionX, this->positionY - image.height(), image.width(), 5, Gosu::Color::GREEN, 0);
