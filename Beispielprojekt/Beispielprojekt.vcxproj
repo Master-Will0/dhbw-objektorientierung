@@ -168,10 +168,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Arena.cpp" />
     <ClCompile Include="Beispielprojekt.cpp" />
+    <ClCompile Include="Car.cpp" />
+    <ClCompile Include="GameWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="rakete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Arena.h" />
+    <ClInclude Include="Car.h" />
+    <ClInclude Include="GameWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
