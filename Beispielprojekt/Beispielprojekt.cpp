@@ -67,7 +67,7 @@ class Car {
 	bool IsCarOverCurve = true;
 	const Gosu::Image image;
 	const Gosu::Image image_mirrored;
-	const int ACCELERATION = 200;
+	const int ACCELERATION = 1000;  //fürs Abbremsen und Beschleunigen
 	const int GRAVITY = 1;
 	const double FRICTION = 0.995;
 	Arena arena;
@@ -213,8 +213,8 @@ public:
 	GameWindow(): 
 		Window (WIDTH, HEIGHT),
 		Hintergrund ("Hintergrund.png"),
-		Redcar("Car_red", arena, WIDTH/1.5, HEIGHT - 150),
-		Bluecar("Car_blue", arena, WIDTH/2.5, HEIGHT - 150)
+		Redcar("Car_red", arena, WIDTH/3, HEIGHT - 150),
+		Bluecar("Car_blue", arena, WIDTH/2, HEIGHT - 150)
 	{
 		set_caption("Gosu Tutorial mit Git");
 	}
