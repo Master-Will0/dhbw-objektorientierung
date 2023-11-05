@@ -1,7 +1,9 @@
 #include "Car.h"
 
-Car::Car(string fileprename, Arena arena, int positionX, int positionY, double pWIDTH, int pFRAMERATE)
+Car::Car(string fileprename, Arena arena, int positionX, int positionY, int pWIDTH, int pHEIGHT, int pFRAMERATE):
+	arena(pWIDTH, pHEIGHT)
 {
+	
 	WIDTH = pWIDTH;
 	FRAMERATE = pFRAMERATE;
 	Gosu::Image image(fileprename + ".png");

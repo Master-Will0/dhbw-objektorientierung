@@ -12,11 +12,10 @@
 #define PI 3.14159265
 
 using namespace std;
-
 class Car {
 
 public:
-	Car(string fileprename, Arena arena, int positionX, int positionY, double pWIDTH, int pFRAMERATE); // Kontruktor mit Festlegung des Pixels vom Bild (unten links) und Spiegelung des Bildes  
+	Car(string fileprename, Arena arena, int positionX, int positionY, int pWIDTH, int pHEIGHT, int pFRAMERATE); // Kontruktor mit Festlegung des Pixels vom Bild (unten links) und Spiegelung des Bildes  
 
 	int getCenterX();	// Rückgabe des Mittelpunkt des Objekts in X - Richtung
 	int getCenterY();	// Rückgabe des Mittelpunkt des Objekts in Y - Richtung

@@ -1,7 +1,12 @@
 #include "GameWindow.h"
 
 
-GameWindow::GameWindow(int pWIDTH, int pHEIGHT, int pFRAMERATE) : Window(pWIDTH, pHEIGHT, pFRAMERATE)
+GameWindow::GameWindow(int pWIDTH, int pHEIGHT, int pFRAMERATE) : 
+	Window(pWIDTH, pHEIGHT, pFRAMERATE), 
+	arena(pWIDTH, pHEIGHT), 
+	redcar("auto_rot", arena, pWIDTH / 3, pHEIGHT - 150, pWIDTH, pHEIGHT, pFRAMERATE),
+	bluecar("auto_blau", arena, pWIDTH / 2, pHEIGHT - 150, pWIDTH, pHEIGHT, pFRAMERATE)
+
 {		
 		set_caption("Gosu Tutorial mit Git");
 		Gosu::Image Hintergrund("Hintergrund.png");
@@ -9,10 +14,10 @@ GameWindow::GameWindow(int pWIDTH, int pHEIGHT, int pFRAMERATE) : Window(pWIDTH,
 		HEIGHT = pHEIGHT;
 		FRAMERATE = pFRAMERATE;
 
-		Arena arena(HEIGHT, WIDTH);
+		//arena = { HEIGHT, WIDTH };
 
-		Car redcar("auto_rot", arena, WIDTH / 3, HEIGHT - 150, WIDTH, FRAMERATE);
-		Car bluecar("auto_blau", arena, WIDTH / 2, HEIGHT - 150, WIDTH, FRAMERATE);
+		//Car redcar("auto_rot", arena, WIDTH / 3, HEIGHT - 150, WIDTH, HEIGHT, FRAMERATE);
+		//Car bluecar("auto_blau", arena, WIDTH / 2, HEIGHT - 150, WIDTH, HEIGHT, FRAMERATE);
 }
 
 void GameWindow::draw()

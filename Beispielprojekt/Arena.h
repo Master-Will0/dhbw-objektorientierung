@@ -22,6 +22,3 @@ private:
 	double WIDTH;
 	double HEIGHT;
 };
-
-
-extern Arena arena;
