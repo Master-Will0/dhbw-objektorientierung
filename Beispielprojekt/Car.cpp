@@ -1,18 +1,19 @@
 #include "Car.h"
 
-Car::Car(string fileprename, Arena arena, int positionX, int positionY, double pWIDTH, int pFRAMERATE)
+Car::Car(string fileprename, Arena* pArena, int pPositionX, int pPositionY, int pWIDTH, int pFRAMERATE)
 {
+	arena = pArena;
 	WIDTH = pWIDTH;
 	FRAMERATE = pFRAMERATE;
 	Gosu::Image image(fileprename + ".png");
 	Gosu::Image image_mirrored(fileprename + "_mirrored.png");
 
-	this->positionX = positionX;// -image.width() / 2;		Festlegung X ud Y für Bild vom Auto
-	this->positionY = positionY - image.height();
+	positionX = pPositionX;// -image.width() / 2;		Festlegung X ud Y für Bild vom Auto
+	positionY = pPositionY - image.height();
 
-	if (this->positionX > WIDTH / 2)	//spiegeln des Bildes ab rechter Hälfte des Bildschirms?
+	if (positionX > (WIDTH / 2))	//spiegeln des Bildes ab rechter Hälfte des Bildschirms?
 	{
-		this->mirrored = true;	
+		mirrored = true;	
 	}
 }
 
@@ -35,6 +36,8 @@ int Car::getEndY() //Rückgabe Eckpunkt des Bildes in Y-Richtung
 
 void Car::draw() 
 {
+	image.draw(0,0,50,1,1);
+	/*
 	if (mirrored) //wenn das gespiegelte Bild auftaucht
 	{
 		image_mirrored.draw_rot(this->positionX, this->positionY - image.height() * (1 + sin(-1 * rotation * PI / 180)), 0, -1 * rotation, 0, 0);
@@ -50,7 +53,7 @@ void Car::draw()
 		Gosu::Graphics::draw_rect(this->positionX, this->positionY - image.height() * (1 + sin(-1 * rotation * PI / 180)), image.width(), image.height(), Gosu::Color::BLACK, 0);
 		Gosu::Graphics::draw_rect(this->positionX, this->positionY - image.height(), image.width(), 5, Gosu::Color::GREEN, 0);
 		image_mirrored.draw(0, 0, 0, 0, 0);
-	}
+	}*/
 }
 
 void Car::move() 
@@ -104,7 +107,7 @@ int Car::getRotation() //Rückgabe der Rotation vom Bild
 
 bool Car::carOverCurve() // caic for top middle of car
 { 
-	if (this->positionY < arena.YOfArenaCurve(this->getCenterX())) 
+	if (this->positionY < arena->YOfArenaCurve(this->getCenterX())) 
 	{
 		return 1;
 	}
@@ -120,8 +123,8 @@ void Car::gravity() //wie ist die Schwerkraft gemeint? also welchen Einfluss hat
 }
 void Car::directedVelocity()
 {
-	this->rotation = arena.RotationOfArenaCurve(this->getCenterX());// !!!!!
-	positionY = arena.YOfArenaCurve(getCenterX());
+	this->rotation = arena->RotationOfArenaCurve(this->getCenterX());// !!!!!
+	positionY = arena->YOfArenaCurve(getCenterX());
 
 	velocity -= gravityY * sin(rotation * PI / 180);
 

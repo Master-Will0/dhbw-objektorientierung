@@ -16,15 +16,17 @@ using namespace std;
 class Car {
 
 public:
-	Car(string fileprename, Arena arena, int positionX, int positionY, double pWIDTH, int pFRAMERATE); // Kontruktor mit Festlegung des Pixels vom Bild (unten links) und Spiegelung des Bildes  
+	Car(string fileprename, Arena* pArena, int pPositionX, int pPositionY, int pWIDTH, int pFRAMERATE); // Kontruktor mit Festlegung des Pixels vom Bild (unten links) und Spiegelung des Bildes  
+
+	void draw();
+	void move();
 
 	int getCenterX();	// Rückgabe des Mittelpunkt des Objekts in X - Richtung
 	int getCenterY();	// Rückgabe des Mittelpunkt des Objekts in Y - Richtung
 	int getEndX(); //Rückgabe Eckpunkt des Bildes in X-Richtung
 	int getEndY(); //Rückgabe Eckpunkt des Bildes in Y-Richtung
 
-	void draw();
-	void move();
+	
 	
 	void accelerate(Gosu::Button btnLeft, Gosu::Button btnRight); //bremsen und beschleunigen, je nach Tastendruck
 
@@ -62,7 +64,7 @@ private:
 
 	double WIDTH;
 	int FRAMERATE;
-	Arena arena;
+	Arena *arena;
 
 };
 
@@ -73,5 +75,4 @@ private:
 	
 
 	
-
 

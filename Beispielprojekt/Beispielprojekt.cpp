@@ -25,6 +25,7 @@ int main()
 {
 	cout << "Window-sizing: " << WIDTH << " x " << HEIGHT << endl;
 	GameWindow window(WIDTH, HEIGHT, FRAMERATE);
+
 	window.show();
 	return 1;
 }

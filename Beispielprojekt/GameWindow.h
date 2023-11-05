@@ -9,7 +9,7 @@
 class GameWindow : public Gosu::Window
 {
 public:
-	Gosu::Image Hintergrund;
+	Gosu::Image* hintergrund;
 
 	GameWindow(int pWIDTH, int pHEIGHT, int pFRAMERATE);
 
@@ -22,8 +22,8 @@ private:
 	int FRAMERATE;
 
 
-	Car redcar;
-	Car bluecar;
-	Arena arena;
+	Car* redcar;
+	//Car bluecar;
+	Arena* arena;
 };
 

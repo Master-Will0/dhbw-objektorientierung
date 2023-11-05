@@ -2,33 +2,37 @@
 
 
 GameWindow::GameWindow(int pWIDTH, int pHEIGHT, int pFRAMERATE) : Window(pWIDTH, pHEIGHT, pFRAMERATE)
+
+//Car::Car(string fileprename, Arena* pArena, int pPositionX, int pPositionY, int pWIDTH, int pFRAMERATE)
 {		
 		set_caption("Gosu Tutorial mit Git");
-		Gosu::Image Hintergrund("Hintergrund.png");
+		hintergrund = new Gosu::Image("Hintergrund.png");
+		//Gosu::Image hintergrund("Hintergrund.png");
 		WIDTH = pWIDTH;
 		HEIGHT = pHEIGHT;
 		FRAMERATE = pFRAMERATE;
 
-		Arena arena(HEIGHT, WIDTH);
+		arena = new Arena(HEIGHT, WIDTH);
 
-		Car redcar("auto_rot", arena, WIDTH / 3, HEIGHT - 150, WIDTH, FRAMERATE);
-		Car bluecar("auto_blau", arena, WIDTH / 2, HEIGHT - 150, WIDTH, FRAMERATE);
+		redcar = new Car("Car_red", arena, (int)(WIDTH / 3), (int)(HEIGHT - 150), WIDTH, FRAMERATE);
+		//bluecar = new Car("auto_blau", &arena, WIDTH / 2, HEIGHT - 150, WIDTH, FRAMERATE);
 }
 
 void GameWindow::draw()
 {
-	Hintergrund.draw(0, 0, -100, double(WIDTH) / double(Hintergrund.width()), double(HEIGHT) / double(Hintergrund.height()));
-	redcar.draw();
-	bluecar.draw();
-	arena.draw();
+	hintergrund->draw(0, 0, 0, double(WIDTH) / double(hintergrund->width()), double(HEIGHT) / double(hintergrund->height()));
+	
+	//bluecar.draw();
+	arena->draw();
+	redcar->draw();
 }
 
 
 void GameWindow::update()
 {
-	redcar.move();
+	/*redcar.move();
 	redcar.accelerate(Gosu::Button::KB_LEFT, Gosu::Button::KB_RIGHT);
 
 	bluecar.move();
-	bluecar.accelerate(Gosu::Button::KB_A, Gosu::Button::KB_D);
+	bluecar.accelerate(Gosu::Button::KB_A, Gosu::Button::KB_D);*/
 }

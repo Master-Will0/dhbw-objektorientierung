@@ -24,4 +24,4 @@ private:
 };
 
 
-extern Arena arena;
+//extern Arena arena;
