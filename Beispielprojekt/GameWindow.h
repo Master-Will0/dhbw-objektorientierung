@@ -15,16 +15,15 @@ public:
 
 	void draw() override;
 	void update() override;
-	Arena arena;
+	//Arena arena;
 
 private:
 	int WIDTH;
 	int HEIGHT;
 	int FRAMERATE;
 
-
-	Car* redcar;
-	//Car bluecar;
 	Arena* arena;
+	Car* redcar;
+	//Car* bluecar;
 };
 

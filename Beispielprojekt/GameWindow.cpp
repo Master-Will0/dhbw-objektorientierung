@@ -24,6 +24,9 @@ void GameWindow::draw()
 	
 	//bluecar.draw();
 	arena->draw();
+	//Gosu::Graphics::draw_rect(200, 200, (WIDTH / 2), (HEIGHT / 2), Gosu::Color::RED, 1);
+	//Gosu::Image bild("Car_red.png");
+	//bild.draw(200, 200, 1, 1, 1);
 	redcar->draw();
 }
 

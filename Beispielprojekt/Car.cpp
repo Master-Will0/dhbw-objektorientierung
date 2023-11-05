@@ -5,11 +5,11 @@ Car::Car(string fileprename, Arena* pArena, int pPositionX, int pPositionY, int 
 	arena = pArena;
 	WIDTH = pWIDTH;
 	FRAMERATE = pFRAMERATE;
-	Gosu::Image image(fileprename + ".png");
-	Gosu::Image image_mirrored(fileprename + "_mirrored.png");
+	image = new Gosu::Image(fileprename + ".png");
+	image_mirrored = new Gosu::Image(fileprename + "_mirrored.png");
 
 	positionX = pPositionX;// -image.width() / 2;		Festlegung X ud Y für Bild vom Auto
-	positionY = pPositionY - image.height();
+	positionY = pPositionY - image->height();
 
 	if (positionX > (WIDTH / 2))	//spiegeln des Bildes ab rechter Hälfte des Bildschirms?
 	{
@@ -19,41 +19,42 @@ Car::Car(string fileprename, Arena* pArena, int pPositionX, int pPositionY, int 
 
 int Car::getCenterX() //Rückgabe Mittelpunkt des Bildes in X-Richtung
 {
-	return this->positionX + this->image.width() / 2;
+	return this->positionX + image->width() / 2;
 }
 int Car::getCenterY() //Rückgabe Mittelpunkt des Bildes in Y-Richtung
 {
-	return this->positionY + this->image.height() / 2;
+	return this->positionY + image->height() / 2;
 }
 int Car::getEndX() //Rückgabe Eckpunkt des Bildes in X-Richtung
 {
-	return this->positionX + this->image.width();
+	return this->positionX + image->width();
 }
 int Car::getEndY() //Rückgabe Eckpunkt des Bildes in Y-Richtung
 {
-	return this->positionY + this->image.height();
+	return this->positionY + image->height();
 }
 
 void Car::draw() 
 {
-	image.draw(0,0,50,1,1);
-	/*
+	image->draw(200,200,1);
+	
+	
 	if (mirrored) //wenn das gespiegelte Bild auftaucht
 	{
-		image_mirrored.draw_rot(this->positionX, this->positionY - image.height() * (1 + sin(-1 * rotation * PI / 180)), 0, -1 * rotation, 0, 0);
+		image_mirrored->draw_rot(this->positionX, this->positionY - image->height() * (1 + sin(-1 * rotation * PI / 180)), 0, -1 * rotation, 0, 0);
 		////////////////////////////////
-		Gosu::Graphics::draw_rect(this->positionX, this->positionY - image.height() * (1 + sin(-1 * rotation * PI / 180)), image.width(), image.height(), Gosu::Color::BLACK, 0); //schwarzer Block in Bildgröße
-		Gosu::Graphics::draw_rect(this->positionX, this->positionY - image.height(), image.width(), 5, Gosu::Color::GREEN, 0); //grüner Balken über schwarzem Block
-		image.draw(0, 0, 0, 0, 0); //?
+		Gosu::Graphics::draw_rect(this->positionX, this->positionY - image->height() * (1 + sin(-1 * rotation * PI / 180)), image->width(), image->height(), Gosu::Color::BLACK, 0); //schwarzer Block in Bildgröße
+		Gosu::Graphics::draw_rect(this->positionX, this->positionY - image->height(), image->width(), 5, Gosu::Color::GREEN, 0); //grüner Balken über schwarzem Block
+		image->draw(0, 0, 0, 0, 0); //?
 	}
 	else 
 	{
-		image.draw_rot(this->positionX, this->positionY - image.height() * (1 + sin(-1 * rotation * PI / 180)), 0, -1 * rotation, 0, 0);  // Rotation Bild nach Parabel
+		image->draw_rot(this->positionX, this->positionY - image->height() * (1 + sin(-1 * rotation * PI / 180)), 0, -1 * rotation, 0, 0);  // Rotation Bild nach Parabel
 		
-		Gosu::Graphics::draw_rect(this->positionX, this->positionY - image.height() * (1 + sin(-1 * rotation * PI / 180)), image.width(), image.height(), Gosu::Color::BLACK, 0);
-		Gosu::Graphics::draw_rect(this->positionX, this->positionY - image.height(), image.width(), 5, Gosu::Color::GREEN, 0);
-		image_mirrored.draw(0, 0, 0, 0, 0);
-	}*/
+		Gosu::Graphics::draw_rect(this->positionX, this->positionY - image->height() * (1 + sin(-1 * rotation * PI / 180)), image->width(), image->height(), Gosu::Color::BLACK, 0);
+		Gosu::Graphics::draw_rect(this->positionX, this->positionY - image->height(), image->width(), 5, Gosu::Color::GREEN, 0);
+		image_mirrored->draw(0, 0, 0, 0, 0);
+	}
 }
 
 void Car::move() 

@@ -51,7 +51,7 @@ void Arena::draw()
 {
 	for (int x = 0; x < WIDTH; x++) 
 	{
-		Gosu::Graphics::draw_rect(x, this->YOfArenaCurve(x), 5, 5, Gosu::Color::BLACK, 0);
+		Gosu::Graphics::draw_rect(x, this->YOfArenaCurve(x), 5, 5, Gosu::Color::BLACK, 1);
 	}
 	/*for (int x = 0; x < WIDTH; x++) {
 		for (int y = this->YOfArenaCurve(x); y < HEIGHT; y++) {

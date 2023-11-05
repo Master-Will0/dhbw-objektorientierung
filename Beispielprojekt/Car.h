@@ -55,8 +55,8 @@ private:
 	int rotation = 0; //in degree
 	bool mirrored = false;
 	bool IsCarOverCurve = true;
-	const Gosu::Image image;
-	const Gosu::Image image_mirrored;
+	const Gosu::Image* image;
+	const Gosu::Image* image_mirrored;
 	const int ACCELERATION = 1000;  //fürs Abbremsen und Beschleunigen
 	const int GRAVITY = 1;
 	const double FRICTION = 0.995;
