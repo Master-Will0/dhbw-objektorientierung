@@ -14,8 +14,8 @@ GameWindow::GameWindow(int pWIDTH, int pHEIGHT, int pFRAMERATE) : Window(pWIDTH,
 
 		arena = new Arena(HEIGHT, WIDTH);
 
-		redcar = new Car("Car_red", arena, (int)(WIDTH / 3), (int)(HEIGHT - 150), WIDTH, FRAMERATE);
-		bluecar = new Car("Car_blue", arena, (int)(WIDTH / 2), (int)(HEIGHT - 150), WIDTH, FRAMERATE);
+		redcar = new Car("auto_rot", arena, (int)(WIDTH / 3), (int)(HEIGHT - 150), WIDTH, FRAMERATE);
+		bluecar = new Car("auto_blau", arena, (int)(WIDTH / 2), (int)(HEIGHT - 150), WIDTH, FRAMERATE);
 }
 
 void GameWindow::draw()
