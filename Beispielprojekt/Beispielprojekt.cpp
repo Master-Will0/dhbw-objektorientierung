@@ -3,7 +3,6 @@
 #include <iostream>
 #include <cmath>
 
-#include "GameWindow.h"
 
 #define PI 3.14159265
 using namespace std;
@@ -11,6 +10,9 @@ using namespace std;
 const int WIDTH = Gosu::screen_width();
 const int HEIGHT = Gosu::screen_height();
 const int FRAMERATE = 60;
+
+
+#include "GameWindow.h"
 
 
 
@@ -34,3 +36,8 @@ int main()
 
 
 // Rotation is not perfect and gravity when on the parabola needs to be added
+
+
+var eee
+class ccc()
+	eee

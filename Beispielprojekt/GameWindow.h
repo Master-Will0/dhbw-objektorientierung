@@ -15,6 +15,7 @@ public:
 
 	void draw() override;
 	void update() override;
+	Arena arena;
 
 private:
 	int WIDTH;
