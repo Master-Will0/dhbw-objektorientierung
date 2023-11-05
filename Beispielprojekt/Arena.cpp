@@ -1,8 +1,8 @@
 #include "Arena.h"
 
-//Arena::		
 
-Arena::Arena(double pHEIGHT, double pWIDTH) {
+Arena::Arena(double pHEIGHT, double pWIDTH) 
+{
 	WIDTH = pWIDTH;
 	HEIGHT = pHEIGHT;
 }
@@ -16,6 +16,7 @@ int Arena::XInSegment(int X) //Rückgabe 0 für links, 1 für mitte, 2 für rechts z
 
 int Arena::YOfArenaCurve(double X) //Erstellung der Parabel je nach X-Position
 {
+	double stretchFactor = (double)HEIGHT / 2 / pow((double)WIDTH / 4, 2);
 	switch (XInSegment(X)) //105 Verschiebung nach oben, wegen der Plattform; strechtFactor als Skalierung der Parabel; Abzug der Bildschirmbreite für die Verschiebung der Parabel
 	{
 	case 0:
@@ -29,7 +30,7 @@ int Arena::YOfArenaCurve(double X) //Erstellung der Parabel je nach X-Position
 
 double Arena::SlopeOfArenaCurve(double X) 
 {
-	stretchFactor = (double)HEIGHT / 2 / pow((double)WIDTH / 4, 2); // idk why, same definition again; Wieso generell diese Berechnung?
+	double stretchFactor = (double)HEIGHT / 2 / pow((double)WIDTH / 4, 2); // idk why, same definition again; Wieso generell diese Berechnung?
 	switch (XInSegment(X)) 
 	{
 	case 0:

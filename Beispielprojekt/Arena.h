@@ -7,9 +7,8 @@
 
 class Arena
 {
-	double stretchFactor = (double)HEIGHT / 2 / pow((double)WIDTH / 4, 2);
-
 public:
+	//double stretchFactor;
 
 	Arena(double pHEIGHT, double pWIDTH); // Konstruktor, bekommt globale Variablen
 

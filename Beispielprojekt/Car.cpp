@@ -1,15 +1,15 @@
 #include "Car.h"
 
-Car::Car(string fileprename, Arena arena, int positionX, int positionY, double pWIDTH, int pFRAMERATE) :
-	image(fileprename + ".png"), image_mirrored(fileprename + "_mirrored.png")
-
+Car::Car(string fileprename, Arena arena, int positionX, int positionY, double pWIDTH, int pFRAMERATE)
 {
 	WIDTH = pWIDTH;
 	FRAMERATE = pFRAMERATE;
+	Gosu::Image image(fileprename + ".png");
+	Gosu::Image image_mirrored(fileprename + "_mirrored.png");
 
 	this->positionX = positionX;// -image.width() / 2;		Festlegung X ud Y für Bild vom Auto
 	this->positionY = positionY - image.height();
-	
+
 	if (this->positionX > WIDTH / 2)	//spiegeln des Bildes ab rechter Hälfte des Bildschirms?
 	{
 		this->mirrored = true;	
