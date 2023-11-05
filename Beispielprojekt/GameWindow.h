@@ -24,6 +24,6 @@ private:
 
 	Arena* arena;
 	Car* redcar;
-	//Car* bluecar;
+	Car* bluecar;
 };
 
