@@ -76,6 +76,13 @@ void Car::move()
 	this->movement();//umwandeln der Geschwindigkeits Werte in Bewegung
 }
 
+void Car::jump(Gosu::Button btnUP) {
+	if (Gosu::Input::down(btnUP)) 
+	{
+		this->positionY -= 30; //'Sprung nach oben
+	}
+}
+
 void Car::accelerate(Gosu::Button btnLeft, Gosu::Button btnRight) 
 {
 	if (Gosu::Input::down(btnLeft)) //linke Richtung
