@@ -36,7 +36,6 @@ int Car::getEndY() //Rückgabe Eckpunkt des Bildes in Y-Richtung
 
 void Car::draw() 
 {
-	//image->draw(200,200,1);
 	
 	if (mirrored) //wenn das gespiegelte Bild auftaucht
 	{
@@ -58,19 +57,23 @@ void Car::draw()
 
 void Car::move() 
 {
-	IsCarOverCurve = carOverCurve();
-	this->gravity();
 
-	if (!IsCarOverCurve) //Auto unter der Kurve
+	if (!carOverCurve()) //Auto auf der Kurve
 	{
-		this->directedVelocity(); //gerichtete Gechwindigkeit
+		this->rotation = arena->RotationOfArenaCurve(this->getCenterX());// rotation am Punkt der Autos ablesen
+		this->positionY = arena->YOfArenaCurve(this->getCenterX());//falls Auto unter der Kurve sein sollte => auf die Kurve setzen
+
+		velocity -= (double)GRAVITY / FRAMERATE * sin(rotation * PI / 180);//Hangabtriebskraft
+		velocity *= FRICTION;//Reibung
+
+		this->directedVelocity(); //Berechnung der gerichteten Gechwindigkeit auf der Bahn
 	}
 	else 
 	{
-		this->freeVelocity(); //freie Geschwindigkeit
+		this->freefallVelocity(); // Berechnung der Geschwindigkeit im Freien Fall
 	}
-	this->isMirrored();
-	this->movement();
+	this->mirror();//Bild je nach v-Richtung spiegeln
+	this->movement();//umwandeln der Geschwindigkeits Werte in Bewegung
 }
 
 void Car::accelerate(Gosu::Button btnLeft, Gosu::Button btnRight) 
@@ -79,33 +82,19 @@ void Car::accelerate(Gosu::Button btnLeft, Gosu::Button btnRight)
 	{
 		if (!carOverCurve()) //nur wenn das Auto unter der Kurve ist?
 		{
-			this->velocity -= (double)ACCELERATION / FRAMERATE; //bremsen?
+			this->velocity -= (double)ACCELERATION / FRAMERATE; //Beschleunigung nach links
 		}
 	}
 	if (Gosu::Input::down(btnRight)) //rechte Richtung
 	{
 		if (!carOverCurve()) 
 		{
-			this->velocity += (double)ACCELERATION / FRAMERATE; //beschleunigen?
+			this->velocity += (double)ACCELERATION / FRAMERATE; //Beschleunigung nach links
 		}
 	}
 }
 
-bool Car::getMirrored() //Rückgabe, ob das Bild gespiegelt ist
-{
-	return this->mirrored;
-}
-void Car::setRotation(int rotation) //Rotation festlegen
-{
-	
-	this->rotation = rotation;
-}
-int Car::getRotation() //Rückgabe der Rotation vom Bild
-{
-	return this->rotation;
-}
-
-bool Car::carOverCurve() // caic for top middle of car
+bool Car::carOverCurve() // Rückgabe, ob das Auto über der Kurve ist
 { 
 	if (this->positionY < arena->YOfArenaCurve(this->getCenterX())) 
 	{
@@ -117,25 +106,14 @@ bool Car::carOverCurve() // caic for top middle of car
 	}
 }
 
-void Car::gravity() //wie ist die Schwerkraft gemeint? also welchen Einfluss hat sie
-{
-	this->gravityY += (double)GRAVITY / FRAMERATE;
-}
 void Car::directedVelocity()
 {
-	this->rotation = arena->RotationOfArenaCurve(this->getCenterX());// !!!!!
-	positionY = arena->YOfArenaCurve(getCenterX());
-
-	velocity -= gravityY * sin(rotation * PI / 180);
-
-	velocity *= FRICTION;
-
 	velocityX = velocity * cos(rotation * PI / 180);
 	velocityY = -1 * velocity * sin(rotation * PI / 180);
 }
-void Car::freeVelocity()
+void Car::freefallVelocity()
 {
-	velocityY += gravityY;
+	velocityY += (double)GRAVITY / FRAMERATE;
 }
 void Car::movement()
 {
@@ -156,7 +134,7 @@ void Car::movement()
 		counterY -= (int)counterY;
 	}
 }
-void Car::isMirrored() //herausfinden, ob Bild gespiegelt ist
+void Car::mirror() //Bild je nach v-Richtung spiegeln
 {
 	if (this->velocityX < 0) //wenn Auto nach rechts zeigt, aber v nach links geht, also negativ ist
 	{ 
