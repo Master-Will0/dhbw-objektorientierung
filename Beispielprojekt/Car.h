@@ -25,7 +25,7 @@ public:
 	int getEndX(); //Rückgabe Eckpunkt des Bildes in X-Richtung
 	int getEndY(); //Rückgabe Eckpunkt des Bildes in Y-Richtung
 
-	void jump(Gosu::Button);
+	void jump(Gosu::Button);//sprung nach oben nach Tastendruck
 	void accelerate(Gosu::Button btnLeft, Gosu::Button btnRight); //bremsen und beschleunigen, je nach Tastendruck
 
 	
