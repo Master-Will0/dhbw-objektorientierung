@@ -35,7 +35,9 @@ void GameWindow::update()
 {
 	redcar->move();
 	redcar->accelerate(Gosu::Button::KB_LEFT, Gosu::Button::KB_RIGHT);
+	redcar->jump(Gosu::Button::KB_UP);
 
 	bluecar->move();
 	bluecar->accelerate(Gosu::Button::KB_A, Gosu::Button::KB_D);
+	bluecar->jump(Gosu::Button::KB_W);
 }

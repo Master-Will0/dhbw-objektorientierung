@@ -5,6 +5,7 @@ Arena::Arena(double pHEIGHT, double pWIDTH)
 {
 	WIDTH = pWIDTH;
 	HEIGHT = pHEIGHT;
+	stretchFactor = HEIGHT / 2 / pow(WIDTH / 4, 2);
 }
 
 int Arena::XInSegment(int X) //Rückgabe 0 für links, 1 für mitte, 2 für rechts zum Ermittlen des Standpunkts
@@ -16,11 +17,10 @@ int Arena::XInSegment(int X) //Rückgabe 0 für links, 1 für mitte, 2 für rechts z
 
 int Arena::YOfArenaCurve(double X) //Erstellung der Parabel je nach X-Position
 {
-	double stretchFactor = (double)HEIGHT / 2 / pow((double)WIDTH / 4, 2);
 	switch (XInSegment(X)) //105 Verschiebung nach oben, wegen der Plattform; strechtFactor als Skalierung der Parabel; Abzug der Bildschirmbreite für die Verschiebung der Parabel
 	{
 	case 0:
-		return HEIGHT - (105 + stretchFactor * pow(X - (double)WIDTH / 4, 2)); //warum Verschiebung nach links?
+		return HEIGHT - (105 + stretchFactor * pow(X - (double)WIDTH / 4, 2));
 	case 1:
 		return HEIGHT - 105;
 	case 2:
@@ -28,9 +28,9 @@ int Arena::YOfArenaCurve(double X) //Erstellung der Parabel je nach X-Position
 	}
 }
 
-double Arena::SlopeOfArenaCurve(double X) 
+double Arena::SlopeOfArenaCurve(double X)//Rückgabe der Steigung der Parabel
 {
-	double stretchFactor = (double)HEIGHT / 2 / pow((double)WIDTH / 4, 2); // idk why, same definition again; Wieso generell diese Berechnung?
+	
 	switch (XInSegment(X)) 
 	{
 	case 0:
@@ -42,7 +42,7 @@ double Arena::SlopeOfArenaCurve(double X)
 	}
 }
 
-int Arena::RotationOfArenaCurve(double X) 
+int Arena::RotationOfArenaCurve(double X) //Rückgabe der Steigung der Parabel in Grad
 {
 	return atan(this->SlopeOfArenaCurve(X)) * 180 / PI;
 }
