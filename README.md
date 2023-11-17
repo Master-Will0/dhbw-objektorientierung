@@ -12,9 +12,9 @@
 
 - [ ] Plattformen einfügen
 
-- [ ] Beschleunigung der Autos
+- [x] Beschleunigung der Autos
 
-- [ ] verkleinern der Autos
+- [x] verkleinern der Autos
 
 - [ ] Schaden hinzufügen (Labensbalken)
 
