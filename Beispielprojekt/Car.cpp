@@ -79,7 +79,8 @@ void Car::move()
 void Car::jump(Gosu::Button btnUP) {
 	if (Gosu::Input::down(btnUP)) 
 	{
-		this->positionY -= 30; //'Sprung nach oben
+		this->positionY -= 30 * cos(this->rotation * PI /180); //'Sprung nach oben im rechten Winkel zur Fahrbahn
+		this->positionX -= 30 * sin(this->rotation * PI / 180);
 	}
 }
 
@@ -118,10 +119,12 @@ void Car::directedVelocity()
 	velocityX = velocity * cos(rotation * PI / 180);
 	velocityY = -1 * velocity * sin(rotation * PI / 180);
 }
+
 void Car::freefallVelocity()
 {
 	velocityY += (double)GRAVITY / FRAMERATE;
 }
+
 void Car::movement()
 {
 	static double counterX = 0;
@@ -141,6 +144,7 @@ void Car::movement()
 		counterY -= (int)counterY;
 	}
 }
+
 void Car::mirror() //Bild je nach v-Richtung spiegeln
 {
 	if (this->velocityX < 0) //wenn Auto nach rechts zeigt, aber v nach links geht, also negativ ist
