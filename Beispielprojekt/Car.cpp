@@ -40,7 +40,7 @@ void Car::draw()
 	
 	if (mirrored) //wenn das gespiegelte Bild auftaucht
 	{
-		image_mirrored->draw_rot(this->positionX, this->positionY - image->height() * (1 + sin(-1 * rotation * PI / 180)), 0, -1 * rotation, 0, 0);
+		image_mirrored->draw_rot(this->positionX + 20, this->positionY - image->height() * (1 + sin(-1 * rotation * PI / 180) * cos(rotation * PI / 180)), 0, -1 * rotation, 0, 0);
 		////////////////////////////////
 		/*Gosu::Graphics::draw_rect(this->positionX, this->positionY - image->height() * (1 + sin(-1 * rotation * PI / 180)), image->width(), image->height(), Gosu::Color::BLACK, 0); //schwarzer Block in Bildgröße
 		Gosu::Graphics::draw_rect(this->positionX, this->positionY - image->height(), image->width(), 5, Gosu::Color::GREEN, 0); //grüner Balken über schwarzem Block
@@ -48,7 +48,7 @@ void Car::draw()
 	}
 	else 
 	{
-		image->draw_rot(this->positionX, this->positionY - image->height() * (1 + sin(-1 * rotation * PI / 180)), 0, -1 * rotation, 0, 0);  // Rotation Bild nach Parabel
+		image->draw_rot(this->positionX + 20, this->positionY - image->height() * (1 + sin(-1 * rotation * PI / 180) * cos(rotation * PI / 180)), 0, -1 * rotation, 0, 0);  // Rotation Bild nach Parabel
 		
 		/*Gosu::Graphics::draw_rect(this->positionX, this->positionY - image->height() * (1 + sin(-1 * rotation * PI / 180)), image->width(), image->height(), Gosu::Color::BLACK, 0);
 		Gosu::Graphics::draw_rect(this->positionX, this->positionY - image->height(), image->width(), 5, Gosu::Color::GREEN, 0);
